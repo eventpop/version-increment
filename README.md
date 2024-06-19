@@ -132,6 +132,7 @@ Examples:
 | increment      | The digit to increment, either `major`, `minor` or `patch`, ignored if `scheme` == `calver` | No       | `patch`  |
 | release_branch | Specify a non-default branch to use for the release tag (the one without -pre)              | No       |          |
 | use_api        | Use the GitHub API to discover current tags, which avoids the need for a git checkout, but requires `curl` and `jq` | No       | `false`  |
+| disable_pre_release | Always return a normal version, even if the branch is not the default branch | No       | `false`  |
 
 ### Outputs 📤
 

@@ -38,6 +38,8 @@ inputs:
     type: string
   use_api:
     description: 'Use the GitHub API to discover current tags, which avoids the need for a git checkout, but requires `curl` and `jq`'
+  disable_pre_release:
+    description: "Disable pre-release versioning"
     required: false
     default: false
 
@@ -98,3 +100,4 @@ runs:
         scheme: ${{ inputs.scheme }}
         release_branch: ${{ inputs.release_branch }}
         use_api: ${{ inputs.use_api }}
+        disable_pre_release: ${{ inputs.disable_pre_release }}

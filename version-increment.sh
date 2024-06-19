@@ -118,14 +118,16 @@ if [[ "${version_array[0]}" -gt 2020 && "${scheme}" != "calver" ]] ; then
 fi
 
 # add pre-release info to version if not the default branch
-if [[ "${current_ref}" != "refs/heads/${default_branch}" ]] ; then
-    pre_release="pre.${git_commit}"
-    if [[ "${pep440:-}" == 'true' ]] ; then
-        new_version="${new_version}+${pre_release}"
-    else
-        new_version="${new_version}-${pre_release}"
+if [[ "${disable_pre_release:-}" != 'true' ]] ; then
+    if [[ "${current_ref}" != "refs/heads/${default_branch}" ]] ; then
+        pre_release="pre.${git_commit}"
+        if [[ "${pep440:-}" == 'true' ]] ; then
+            new_version="${new_version}+${pre_release}"
+        else
+            new_version="${new_version}-${pre_release}"
+        fi
+        echo "PRE_RELEASE_LABEL=${pre_release}" >> "${GITHUB_OUTPUT}"
     fi
-    echo "PRE_RELEASE_LABEL=${pre_release}" >> "${GITHUB_OUTPUT}"
 fi
 
 if [[ -z "$(echo "${new_version}" | grep_p "${pcre_semver}")" ]] ; then

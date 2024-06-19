@@ -233,6 +233,23 @@ function init_repo {
     [[ "$output" = *"VERSION=1.2.4-pre.${short_ref}"* ]]
 }
 
+@test "does not append prerelease information if on a branch but disabled_pre_release" {
+    init_repo
+
+    export current_version=1.2.3
+    export GITHUB_REF="refs/heads/super-awesome-feature"
+    export short_ref="$(git rev-parse --short HEAD | sed 's/0*//')"
+    export disable_pre_release="true"
+
+    run version-increment.sh
+
+    print_run_info
+    [ "$status" -eq 0 ] &&
+    [[ "$output" != *"PRE_RELEASE_LABEL=pre."* ]] &&
+    [[ "$output" != *"VERSION=1.2.4-pre."* ]] &&
+    [[ "$output" = *"VERSION=1.2.4"* ]]
+}
+
 @test "does not append prerelease information if on a specified release_branch" {
     init_repo
 
